@@ -59,18 +59,16 @@ class Logger:
         text_line: str = f'{d_m_y}|{h_m_s_ms}|{INFO}|{log_text_line}'
         print(text_line)
 
-        self.all_text_lines: str = f"{text_line}"
-
-        abs_path = os.path.join(self.file_path, self.file_name)
+        self.abs_path = os.path.join(self.file_path, self.file_name)
         # delete old log if there was one
-        if os.path.exists(abs_path):
-            os.remove(abs_path)
+        if os.path.exists(self.abs_path):
+            os.remove(self.abs_path)
 
-        # create new log file
-        with open(abs_path, "w") as file:
-            file.write(self.all_text_lines)
+        # create new log file, append to the end text
+        with open(self.abs_path, "a") as file:
+            file.write(text_line)
 
-    def log_line(self, log_level: str = INFO, log_text_line: str = "...") -> None:
+    def log_custom(self, log_level: str = INFO, log_text_line: str = "...") -> None:
         """
 
         :param log_level: Can be: "DEBUG", "INFO", "WARNING", "ERROR"
@@ -86,7 +84,45 @@ class Logger:
 
         # log only those text lines that are in the list of log levels
         if log_level in self.levels:
-            self.all_text_lines: str = f"{self.all_text_lines}{text_line}"
+            # create new log file, append to the end text
+            with open(self.abs_path, "a") as file:
+                file.write(f"\n{text_line}")
+
+    def log_debug(self, log_text_line: str = "...") -> None:
+        """
+
+        :param log_text_line: Default is ...
+        :return:
+        """
+
+        self.log_custom(DEBUG, log_text_line)
+
+    def log_info(self, log_text_line: str = "...") -> None:
+        """
+
+        :param log_text_line: Default is ...
+        :return:
+        """
+
+        self.log_custom(INFO, log_text_line)
+
+    def log_warning(self, log_text_line: str = "...") -> None:
+        """
+
+        :param log_text_line: Default is ...
+        :return:
+        """
+
+        self.log_custom(WARNING, log_text_line)
+    
+    def log_error(self, log_text_line: str = "...") -> None:
+        """
+
+        :param log_text_line: Default is ...
+        :return:
+        """
+
+        self.log_custom(ERROR, log_text_line)
 
     def set_levels(self, log_levels: list[str] = None) -> None:
         """
@@ -119,7 +155,7 @@ def main():
     j = 0
     for i in range(1000000):
         if i % 100000 == 0:
-            logger.log_line(f"this is {j}. line")
+            logger.log_custom("INFO", f"this is {j}. line")
             j += 1
 
 
