@@ -7,8 +7,8 @@ from pathlib import Path
 import os
 
 __autor__ = "Srdjan Dragojevic"
-__github__ = ""
-__email__ = ""
+__github__ = "https://github.com/srdjankarlo"
+__email__ = "srkidjan@gmail.com"
 
 DEBUG = "DEBUG"
 INFO = "INFO"
@@ -22,7 +22,7 @@ class Logger:
     def __init__(self, log_file_name: str = None,
                  log_file_path: Path = None,
                  log_levels: list[str] = None,
-                 log_text_line: str = "... logger initialized ...") -> None:
+                 log_text_line: str = "INITIALIZED") -> None:
         """
         Initialize the attributes of the newly created Logger object
 
@@ -68,7 +68,7 @@ class Logger:
         with open(self.abs_path, "a") as file:
             file.write(text_line)
 
-    def log_custom(self, log_level: str = INFO, log_text_line: str = "-") -> None:
+    def log_custom(self, log_level: str = INFO, log_text_line: str = "...") -> None:
         """
         Log a text message with the custom level.
 
