@@ -22,7 +22,7 @@ class Logger:
     def __init__(self, log_file_name: str = None,
                  log_file_path: Path = None,
                  log_levels: list[str] = None,
-                 log_text_line: str = "...") -> None:
+                 log_text_line: str = "... logger initialized ...") -> None:
         """
         Initialize the attributes of the newly created Logger object
 
@@ -68,8 +68,9 @@ class Logger:
         with open(self.abs_path, "a") as file:
             file.write(text_line)
 
-    def log_custom(self, log_level: str = INFO, log_text_line: str = "...") -> None:
+    def log_custom(self, log_level: str = INFO, log_text_line: str = "-") -> None:
         """
+        Log a text message with the custom level.
 
         :param log_level: Can be: "DEBUG", "INFO", "WARNING", "ERROR"
         :param log_text_line: Default is ...
@@ -90,6 +91,7 @@ class Logger:
 
     def log_debug(self, log_text_line: str = "...") -> None:
         """
+        Log the debug message.
 
         :param log_text_line: Default is ...
         :return:
@@ -99,6 +101,7 @@ class Logger:
 
     def log_info(self, log_text_line: str = "...") -> None:
         """
+        Log the info message.
 
         :param log_text_line: Default is ...
         :return:
@@ -108,15 +111,17 @@ class Logger:
 
     def log_warning(self, log_text_line: str = "...") -> None:
         """
+        Log the warning message.
 
         :param log_text_line: Default is ...
         :return:
         """
 
         self.log_custom(WARNING, log_text_line)
-    
+
     def log_error(self, log_text_line: str = "...") -> None:
         """
+        Log the error message.
 
         :param log_text_line: Default is ...
         :return:
@@ -126,7 +131,7 @@ class Logger:
 
     def set_levels(self, log_levels: list[str] = None) -> None:
         """
-        Set the levels that you want to be logged
+        Set the levels that you want to be logged.
 
         :param log_levels: List of levels to be logged
         :return:
@@ -148,6 +153,15 @@ class Logger:
             else:
                 self.levels: list[str] = log_levels
 
+    def add_level(self, log_level: str = None) -> None:
+        """
+        Add a log level to the logger.
+
+        :param log_level: string
+        :return:
+        """
+        self.levels.append(log_level)
+
 
 def main():
     print("Logger module started")
@@ -155,7 +169,13 @@ def main():
     j = 0
     for i in range(1000000):
         if i % 100000 == 0:
+            if i % 225000 == 0:
+                logger.log_error(f"this is {j}. error")
             logger.log_custom("INFO", f"this is {j}. line")
+            if i % 125000 == 0:
+                logger.log_warning(f"this is {j}. warning")
+            if i % 125000 == 0:
+                logger.log_debug(f"this is {j}. debug")
             j += 1
 
 
